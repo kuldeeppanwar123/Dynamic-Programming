@@ -52,9 +52,33 @@ bool subsetSumToK(int n, int k, vector<int> &arr) {
 ---------------------------------------------------------------------------------
 
 TABULATION:
-    time : O()
-    space : O()
-    code : 
+     time : O(N*target)
+     space : O(N*target)
+    code :
+
+    bool subsetSumToK(int n, int k, vector<int> &arr) {
+          vector<vector<int>>dp(n,vector<int>(k+1,0));
+          
+          for(int idx=0; idx<n; idx++){
+            dp[idx][0] =1;
+          }
+        
+          if(arr[0]<=k)dp[0][arr[0]] = 1;
+        
+          for(int idx=1; idx<n; idx++){
+            for(int target=1; target<=k; target++){
+                  bool notTake = dp[idx-1][target];
+                  bool take = false;
+                  if(arr[idx]<=target)
+                  take = dp[idx-1][target-arr[idx]];
+        
+                  dp[idx][target] = notTake || take;
+            }
+          }
+        
+          return dp[n-1][k];
+        
+        }
 
 --------------------------------------------------------------------------------------------------------
 
